@@ -15,16 +15,18 @@ public class PrimeiraClass {
     private  EditText campoNome;
     private  RatingBar campoNota;
 
+    private Mano mano;
+
     public PrimeiraClass(SegundaActivity activity) {
         campoNome = (EditText) activity.findViewById(R.id.nome_id);
         campoEsporte = (EditText) activity.findViewById(R.id.esporte_id);
         campoCidade = (EditText) activity.findViewById(R.id.cidade_id);
         campoEmail = (EditText) activity.findViewById(R.id.email_id);
         campoNota = (RatingBar) activity.findViewById(R.id.nota_id);
+        mano = new Mano();
     }
 
     public Mano pegaMano() {
-        Mano mano = new Mano();
         mano.setNome(campoNome.getText().toString());
         mano.setEsporte(campoEsporte.getText().toString());
         mano.setCidade(campoCidade.getText().toString());
@@ -32,5 +34,14 @@ public class PrimeiraClass {
         mano.setNota(Double.valueOf(campoNota.getProgress()));
 
         return mano;
+    }
+
+    public void preencheFormulario(Mano mano) {
+        campoCidade.setText(mano.getCidade());
+        campoEmail.setText(mano.getEmail());
+        campoEsporte.setText(mano.getEsporte());
+        campoNome.setText(mano.getNome());
+        campoNota.setProgress((int)mano.getNota());
+        this.mano = mano;
     }
 }

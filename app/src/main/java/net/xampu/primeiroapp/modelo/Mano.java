@@ -1,9 +1,11 @@
 package net.xampu.primeiroapp.modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by Rodolfo on 05/06/2018.
  */
-public class Mano {
+public class Mano implements Serializable{
     private Long id;
     private String nome;
     private String esporte;

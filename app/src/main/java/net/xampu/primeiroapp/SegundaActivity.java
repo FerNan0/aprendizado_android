@@ -21,8 +21,13 @@ public class SegundaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_segunda);
-
         helper = new PrimeiraClass(this);
+        Intent intent = getIntent();
+
+        Mano mano = (Mano) intent.getSerializableExtra("manoEditar");
+        if(mano != null) {
+            helper.preencheFormulario(mano);
+        }
     }
 
     @Override
@@ -38,8 +43,15 @@ public class SegundaActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_skate:
                 Mano mano = helper.pegaMano();
+
                 ManoDAO dao = new ManoDAO(this);
-                dao.insereMano(mano);
+
+                if(mano.getId() != null) {
+                    dao.altera(mano);
+                } else {
+                    dao.insereMano(mano);
+                }
+
                 dao.close();
 
                 Toast.makeText(SegundaActivity.this, "Mano " + mano.getNome() + " Salvo", Toast.LENGTH_SHORT).show();

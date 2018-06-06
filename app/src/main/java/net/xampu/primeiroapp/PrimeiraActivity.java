@@ -26,6 +26,24 @@ public class PrimeiraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_primeira);
 
         lista = (ListView) findViewById(R.id.lista);
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View item, int i, long l) {
+                    Mano man = (Mano) lista.getItemAtPosition(i);
+                    //Toast.makeText(PrimeiraActivity.this,"mano:" + man.getNome() + " " + man.getNota() + "!", Toast.LENGTH_SHORT).show();
+                    Intent editar = new Intent(PrimeiraActivity.this, SegundaActivity.class);
+                    editar.putExtra("manoEditar", man);
+                    startActivity(editar);
+                }
+            });
+
+            /*lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(PrimeiraActivity.this,"mano:clique longo!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });*/
 
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import net.xampu.primeiroapp.modelo.Mano;
 
@@ -36,14 +37,20 @@ public class ManoDAO extends SQLiteOpenHelper{
 
     public void insereMano(Mano mano) {
         SQLiteDatabase db = getWritableDatabase();
+        ContentValues dados = getContentValuesMano(mano);
+
+        db.insert("tb_Manos", null, dados);
+    }
+
+    @NonNull
+    private ContentValues getContentValuesMano(Mano mano) {
         ContentValues dados = new ContentValues();
         dados.put("nome", mano.getNome());
         dados.put("esporte", mano.getEsporte());
         dados.put("cidade", mano.getCidade());
         dados.put("email", mano.getEmail());
         dados.put("nota", mano.getNota());
-
-        db.insert("tb_Manos", null, dados);
+        return dados;
     }
 
     public List<Mano> buscaManos() {
@@ -77,5 +84,15 @@ public class ManoDAO extends SQLiteOpenHelper{
 
         String[] params = {man.getId().toString()};
         db.delete("tb_Manos", "id = ?", params);
+    }
+
+    public void altera(Mano mano) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues dados = new ContentValues();
+        dados.put("nome", mano.getNome());
+
+        String[] params = {mano.getId().toString()};
+
+        db.update("tb_Manos", getContentValuesMano(mano), "id = ?", params);
     }
 }
