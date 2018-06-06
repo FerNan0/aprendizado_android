@@ -3,10 +3,14 @@ package net.xampu.primeiroapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import net.xampu.primeiroapp.modelo.Mano;
 
@@ -14,10 +18,14 @@ import java.util.List;
 
 public class PrimeiraActivity extends AppCompatActivity {
 
+    ListView lista;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primeira);
+
+        lista = (ListView) findViewById(R.id.lista);
 
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -27,6 +35,7 @@ public class PrimeiraActivity extends AppCompatActivity {
                 startActivity(segue_add);
             }
         });
+        registerForContextMenu(lista);
     }
 
     private void obtemListaManos() {
@@ -35,7 +44,7 @@ public class PrimeiraActivity extends AppCompatActivity {
         List<Mano> manos = dao.buscaManos();
         dao.close();
 
-        final ListView lista = (ListView) findViewById(R.id.lista);
+        lista = (ListView) findViewById(R.id.lista);
         ArrayAdapter<Mano> adpt = new ArrayAdapter<Mano>(this, android.R.layout.simple_list_item_1, manos);
         lista.setAdapter(adpt);
     }
@@ -45,4 +54,20 @@ public class PrimeiraActivity extends AppCompatActivity {
         super.onResume();
         obtemListaManos();
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuItem deletar = menu.add("Deletar");
+        deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                Mano man = (Mano) lista.getItemAtPosition(info.position);
+                Toast.makeText(PrimeiraActivity.this,man.getEsporte() + " " + man.getNome() + " " + "Vacilao",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+    }
+
 }
