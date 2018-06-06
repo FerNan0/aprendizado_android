@@ -1,6 +1,8 @@
 package net.xampu.primeiroapp;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Browser;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -76,12 +78,20 @@ public class PrimeiraActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Mano man = (Mano) lista.getItemAtPosition(info.position);
+
+        MenuItem site = menu.add("Pesquisar");
+
+        Intent intentSite = new Intent(Intent.ACTION_VIEW);
+        intentSite.setData(Uri.parse("https://www.google.com.br/search?q=" + man.getNome() + " " + man.getEsporte()));
+        site.setIntent(intentSite);
+
         MenuItem deletar = menu.add("Deletar");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Mano man = (Mano) lista.getItemAtPosition(info.position);
                 ManoDAO dao = new ManoDAO(PrimeiraActivity.this);
 
                 dao.deletar(man);
