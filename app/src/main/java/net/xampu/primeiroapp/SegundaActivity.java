@@ -1,6 +1,11 @@
 package net.xampu.primeiroapp;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -53,7 +58,27 @@ public class SegundaActivity extends AppCompatActivity {
                 }
 
                 dao.close();
+                Context ctx = getApplicationContext();
 
+                Intent intent = new Intent(ctx, PrimeiraActivity.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                NotificationCompat.Builder b = new NotificationCompat.Builder(ctx);
+
+                b.setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setWhen(System.currentTimeMillis())
+                        .setSmallIcon(R.drawable.ic_check)
+                        .setTicker("")
+                        .setContentTitle("Efetuado com sucesso!")
+                        .setContentText("Nome: " + mano.getNome() + "\n Esporte: " + mano.getEsporte())
+                        .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                        .setContentIntent(contentIntent)
+                        .setContentInfo("Info");
+
+
+                NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(1, b.build());
                 Toast.makeText(SegundaActivity.this, "Mano " + mano.getNome() + " Salvo", Toast.LENGTH_SHORT).show();
                 finish();
             break;
