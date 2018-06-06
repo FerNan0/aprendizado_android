@@ -71,4 +71,11 @@ public class ManoDAO extends SQLiteOpenHelper{
 
         return manos;
     }
+
+    public void deletar(Mano man) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] params = {man.getId().toString()};
+        db.delete("tb_Manos", "id = ?", params);
+    }
 }

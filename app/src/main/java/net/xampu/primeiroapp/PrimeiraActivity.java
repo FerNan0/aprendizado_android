@@ -64,7 +64,14 @@ public class PrimeiraActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
                 Mano man = (Mano) lista.getItemAtPosition(info.position);
+                ManoDAO dao = new ManoDAO(PrimeiraActivity.this);
+
+                dao.deletar(man);
+
                 Toast.makeText(PrimeiraActivity.this,man.getEsporte() + " " + man.getNome() + " " + "Vacilao",Toast.LENGTH_SHORT).show();
+
+                obtemListaManos();
+
                 return false;
             }
         });
