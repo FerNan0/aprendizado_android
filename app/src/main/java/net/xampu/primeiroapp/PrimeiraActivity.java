@@ -92,17 +92,21 @@ public class PrimeiraActivity extends AppCompatActivity {
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                ManoDAO dao = new ManoDAO(PrimeiraActivity.this);
-
-                dao.deletar(man);
-
-                Toast.makeText(PrimeiraActivity.this,man.getEsporte() + " " + man.getNome() + " " + "Vacilao",Toast.LENGTH_SHORT).show();
-
-                obtemListaManos();
+                deletarMano(man);
 
                 return false;
             }
         });
+    }
+
+    private void deletarMano(Mano man) {
+        ManoDAO dao = new ManoDAO(PrimeiraActivity.this);
+
+        dao.deletar(man);
+
+        Toast.makeText(PrimeiraActivity.this,man.getEsporte() + " " + man.getNome() + " " + "Vacilao",Toast.LENGTH_SHORT).show();
+
+        obtemListaManos();
     }
 
 }

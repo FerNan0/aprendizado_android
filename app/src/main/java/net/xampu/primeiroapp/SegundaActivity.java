@@ -3,8 +3,10 @@ package net.xampu.primeiroapp;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,20 +64,33 @@ public class SegundaActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ctx, PrimeiraActivity.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                Intent intentSite = new Intent(Intent.ACTION_VIEW);
+                intentSite.setData(Uri.parse("https://www.google.com.br/search?q=" + mano.getNome() + " " + mano.getEsporte()));
+
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intentSite, PendingIntent.FLAG_ONE_SHOT);
 
                 NotificationCompat.Builder b = new NotificationCompat.Builder(ctx);
 
-                b.setAutoCancel(true)
+                NotificationCompat.Builder notification = b.setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setWhen(System.currentTimeMillis())
                         .setSmallIcon(R.drawable.ic_check)
                         .setTicker("")
                         .setContentTitle("Efetuado com sucesso!")
                         .setContentText("Nome: " + mano.getNome() + "\n Esporte: " + mano.getEsporte())
-                        .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                        .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                         .setContentIntent(contentIntent)
-                        .setContentInfo("Info");
+                        .setContentInfo("Info")
+                        .setAutoCancel(true);
 
+                NotificationCompat.Action actionProcurar = new NotificationCompat.Action.Builder(R.drawable.ic_browser, "Procurar",pendingIntent).build();
+
+                notification.addAction(actionProcurar);
+
+                Intent intentDelete = new Intent(this, NotificationActionReceiver.class);
+                intentDelete.setAction("delete");
+                intentDelete.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(1, b.build());
@@ -84,5 +99,20 @@ public class SegundaActivity extends AppCompatActivity {
             break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public class NotificationActionReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equalsIgnoreCase("delete")) {
+
+                NotificationManager notificationManager =
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(11111);
+
+            }
+        }
     }
 }
