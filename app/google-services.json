@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1096319079170",
+    "firebase_url": "https://manopdp-4d0fe.firebaseio.com",
+    "project_id": "manopdp-4d0fe",
+    "storage_bucket": "manopdp-4d0fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096319079170:android:c18b12c27e3dda83",
+        "android_client_info": {
+          "package_name": "br.com.cascao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096319079170-8usc9p2p6950trhosb96oep635grv3og.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1096319079170-8usc9p2p6950trhosb96oep635grv3og.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB74fS4iqrVJxCU53KOK1IP1RT27I3czZw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
